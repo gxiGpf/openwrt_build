@@ -1,0 +1,27 @@
+name: Demo Build
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  demo-build:
+    name: Demo Build
+    runs-on: ubuntu-2022
+    steps:
+      - name: Set env
+        run: |
+            sudo apt update
+            sudo apt install build-essential clang flex bison g++ gawk \
+                gcc-multilib g++-multilib gettext git libncurses5-dev libssl-dev \
+                python3-setuptools rsync swig unzip zlib1g-dev file wget
+            git clone --depth=1 https://github.com/openwrt/openwrt
+            cp ./.config ./openwrt/
+            pwd
+      - name: Build
+        run: |
+            cd openwrt
+            make
+      - name: package
+        run: |
+            ls
